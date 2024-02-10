@@ -1,11 +1,18 @@
 import { theme } from '@/utils/theme';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 interface Props {
   onTicketClick: () => void
 }
 
 const TicketScreen: React.FC<Props> = ({ onTicketClick }) => {
+  const [opacity, setOpacity] = useState(0);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setOpacity(1), 500);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <div style={{background: theme.colors.graylight}} className='h-screen w-screen absolute top-0 left-0 z-10'>
@@ -20,10 +27,10 @@ const TicketScreen: React.FC<Props> = ({ onTicketClick }) => {
         <img src="/sali-a-bordo.png" className='px-16' alt="ticket" />
         <img src="/ticket-2-big.png" className='p-4' alt="ticket" />
       </div>
-      <div className='absolute h-screen w-screen bg-black opacity-60 z-10 top-0 left-0'></div>
+      <div style={{ opacity: opacity*.6, transition: "opacity 1s ease-in-out" }} className='absolute h-screen w-screen bg-black opacity-60 z-10 top-0 left-0'></div>
       <div className='absolute h-screen w-screen top-0 left-0 z-20'>
         <div className='flex items-center justify-center h-full'>
-          <img onClick={onTicketClick} src="/ticket-convalidato.png" className='p-7' />
+          <img onClick={onTicketClick} style={{ opacity, transition: "opacity 1s ease-in-out" }} src="/ticket-convalidato.png" className='p-7' />
         </div>
       </div>
     </div>
